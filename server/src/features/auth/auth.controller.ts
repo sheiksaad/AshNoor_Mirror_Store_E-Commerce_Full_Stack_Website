@@ -19,8 +19,8 @@ import { env } from "../../config/env.js";
 const REFRESH_COOKIE_OPTIONS = {
     httpOnly: true,
     secure: env.NODE_ENV === "production",
-    sameSite: "strict" as const,
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    sameSite: env.NODE_ENV === "production" ? ("none" as const) : ("strict" as const),
+    maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
 export async function getMe(req: Request, res: Response): Promise<void> {
