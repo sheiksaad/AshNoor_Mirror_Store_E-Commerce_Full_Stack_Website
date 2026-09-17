@@ -2,7 +2,7 @@ import { prisma } from "../../config/prisma.js";
 import { ApiError } from "../../utils/apiError.js";
 import { activeGateway } from "../payment/payment.service.js";
 import type { CreateOrderInput } from "./order.validation.js";
-import type { OrderStatus } from "../../../generated/prisma/enums.js";
+import type { OrderStatus, PaymentStatus } from "../../../generated/prisma/enums.js";
 
 const ADVANCE_PAYMENT_PERCENT = 0.3; // 30% advance, 70% on delivery
 
@@ -52,6 +52,8 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
                 advanceAmount,
                 remainingAmount,
                 couponId,
+                status: "PENDING",
+                paymentStatus: "PENDING",
                 items: {
                     create: cartItems.map((item) => ({
                         productId: item.productId,
@@ -124,7 +126,7 @@ export function listAllOrders() {
 }
 
 const VALID_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
-    PENDING: ["ADVANCE_PAID", "CANCELLED"],
+    PENDING: ["ADVANCE_PAID", "CONFIRMED", "CANCELLED"],
     ADVANCE_PAID: ["CONFIRMED", "CANCELLED"],
     CONFIRMED: ["SHIPPED", "CANCELLED"],
     SHIPPED: ["DELIVERED"],
@@ -140,5 +142,10 @@ export async function updateOrderStatus(orderId: string, newStatus: OrderStatus)
         throw new ApiError(400, `Cannot move order from ${order.status} to ${newStatus}`);
     }
 
-    return prisma.order.update({ where: { id: orderId }, data: { status: newStatus } });
+    const data: { status: OrderStatus; paymentStatus?: PaymentStatus } = { status: newStatus };
+    if (newStatus === "DELIVERED") {
+        data.paymentStatus = "PAID";
+    }
+
+    return prisma.order.update({ where: { id: orderId }, data });
 }

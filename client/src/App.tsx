@@ -26,7 +26,6 @@ import { AdminOverviewPage } from "@/features/admin/pages/AdminOverviewPage";
 import { AdminProductsPage } from "@/features/admin/pages/AdminProductsPage";
 import { AdminOrdersPage } from "@/features/admin/pages/AdminOrdersPage";
 import { AdminCouponsPage } from "@/features/admin/pages/AdminCouponsPage";
-import { ComingSoonPage } from "@/features/admin/pages/ComingSoonPage";
 import { WishlistPage } from "@/features/wishlist/pages/WishlistPage";
 import { AdminCustomersPage } from "@/features/admin/pages/AdminCustomersPage";
 import { AdminAnalyticsPage } from "@/features/admin/pages/AdminAnalyticsPage";

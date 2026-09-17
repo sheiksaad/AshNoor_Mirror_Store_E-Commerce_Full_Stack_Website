@@ -6,7 +6,6 @@ import { ProductFormModal } from "../components/ProductFormModal";
 import { Icon } from "@/components/Icon";
 import type { JSX } from "react"
 
-
 export function AdminProductsPage(): JSX.Element {
     const [showModal, setShowModal] = useState(false);
     const queryClient = useQueryClient();
@@ -18,7 +17,7 @@ export function AdminProductsPage(): JSX.Element {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin-products"] });
             setShowModal(false);
-            toast.success("Product created");
+            toast.success("Product created successfully");
         },
         onError: () => toast.error("Could not create product"),
     });
@@ -32,53 +31,70 @@ export function AdminProductsPage(): JSX.Element {
     });
 
     return (
-        <div>
-            <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-stack-lg gap-4">
+        <div className="space-y-8 animate-fade-in">
+            <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 className="font-headline-lg text-headline-lg text-primary">Products</h2>
-                    <p className="text-on-surface-variant font-body-md text-body-md mt-2">Manage your mirror inventory.</p>
+                    <h2 className="font-headline-lg text-3xl text-primary font-bold">Products Management</h2>
+                    <p className="text-on-surface-variant font-body-md text-sm mt-1">Manage inventory, prices, and stock of artisanal mirrors.</p>
                 </div>
-                <button onClick={() => setShowModal(true)} className="bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md px-6 py-2 rounded shadow-[0_10px_30px_rgba(255,224,136,0.2)] hover:bg-secondary-fixed-dim transition-colors flex items-center gap-2">
-                    <Icon name="add" className="text-sm" /> Add Product
+                <button 
+                    onClick={() => setShowModal(true)} 
+                    className="bg-gradient-gold text-charcoal-900 font-label-md text-sm px-6 py-3 rounded-xl shadow-md hover:shadow-luxury-glow transition-all flex items-center gap-2 uppercase tracking-wider font-bold"
+                >
+                    <Icon name="add" className="text-lg" /> Add Product
                 </button>
             </header>
 
-            <div className="bg-surface-container-lowest/80 backdrop-blur-md rounded-xl border border-outline-variant/20 overflow-hidden">
-                {isLoading && <p className="p-6 font-body-md text-on-surface-variant">Loading...</p>}
+            <div className="bg-white rounded-2xl border border-champagne-300/45 shadow-premium overflow-hidden">
+                {isLoading && (
+                    <div className="p-12 flex justify-center">
+                        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-champagne-500" />
+                    </div>
+                )}
                 {products && products.length > 0 && (
-                    <table className="w-full text-left border-collapse">
-                        <thead>
-                            <tr className="border-b border-outline-variant/20 bg-surface/50">
-                                <th className="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Product</th>
-                                <th className="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Category</th>
-                                <th className="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Price</th>
-                                <th className="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Stock</th>
-                                <th className="py-4 px-6 text-right font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-outline-variant/10">
-                            {products.map((product) => (
-                                <tr key={product.id} className="hover:bg-surface-container-low/50 transition-colors group">
-                                    <td className="py-4 px-6">
-                                        <div className="flex items-center gap-4">
-                                            <img src={product.images[0]?.url} alt="" className="w-12 h-16 object-cover rounded shadow-sm" />
-                                            <p className="font-label-md text-label-md text-on-surface">{product.name}</p>
-                                        </div>
-                                    </td>
-                                    <td className="py-4 px-6 font-body-md text-body-md text-on-surface-variant">{product.category.name}</td>
-                                    <td className="py-4 px-6 font-body-md text-body-md text-on-surface">Rs. {product.price}</td>
-                                    <td className="py-4 px-6 font-body-md text-body-md">{product.stock}</td>
-                                    <td className="py-4 px-6 text-right">
-                                        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button onClick={() => deleteMutation.mutate(product.id)} className="p-2 text-on-surface-variant hover:text-error rounded-full hover:bg-error-container/50" title="Delete">
-                                                <Icon name="delete" className="text-[20px]" />
-                                            </button>
-                                        </div>
-                                    </td>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="border-b border-champagne-300/30 bg-surface-container-low/50">
+                                    <th className="py-4 px-6 font-caption text-xs text-on-surface-variant uppercase tracking-wider">Product</th>
+                                    <th className="py-4 px-6 font-caption text-xs text-on-surface-variant uppercase tracking-wider">Category</th>
+                                    <th className="py-4 px-6 font-caption text-xs text-on-surface-variant uppercase tracking-wider">Price</th>
+                                    <th className="py-4 px-6 font-caption text-xs text-on-surface-variant uppercase tracking-wider">Stock</th>
+                                    <th className="py-4 px-6 text-right font-caption text-xs text-on-surface-variant uppercase tracking-wider">Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="divide-y divide-champagne-300/20">
+                                {products.map((product) => (
+                                    <tr key={product.id} className="hover:bg-champagne-100/40 transition-colors group">
+                                        <td className="py-4 px-6">
+                                            <div className="flex items-center gap-4">
+                                                <img src={product.images[0]?.url} alt="" className="w-12 h-16 object-cover rounded-lg shadow-sm border border-champagne-300/50" />
+                                                <p className="font-label-md text-sm text-primary font-semibold">{product.name}</p>
+                                            </div>
+                                        </td>
+                                        <td className="py-4 px-6 font-body-md text-sm text-on-surface-variant">{product.category.name}</td>
+                                        <td className="py-4 px-6 font-label-md text-sm text-primary font-bold">Rs. {product.price.toLocaleString()}</td>
+                                        <td className="py-4 px-6 font-body-md text-sm">
+                                            <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${product.stock > 0 ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
+                                                {product.stock} in stock
+                                            </span>
+                                        </td>
+                                        <td className="py-4 px-6 text-right">
+                                            <div className="flex items-center justify-end gap-2">
+                                                <button 
+                                                    onClick={() => deleteMutation.mutate(product.id)} 
+                                                    className="p-2.5 text-gray-400 hover:text-error rounded-full hover:bg-error/15 transition-colors" 
+                                                    title="Delete Product"
+                                                >
+                                                    <Icon name="delete" className="text-xl" />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 )}
             </div>
 

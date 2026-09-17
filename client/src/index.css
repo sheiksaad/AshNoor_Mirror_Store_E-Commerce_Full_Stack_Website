@@ -1,3 +1,10 @@
+@import '@fontsource/montserrat/400.css';
+@import '@fontsource/montserrat/500.css';
+@import '@fontsource/montserrat/600.css';
+@import '@fontsource/playfair-display/500.css';
+@import '@fontsource/playfair-display/600.css';
+@import '@fontsource/playfair-display/700.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,4 +16,87 @@
 
 .material-symbols-outlined.fill-icon {
     font-variation-settings: "FILL" 1, "wght" 300, "GRAD" 0, "opsz" 24;
+}
+
+@layer utilities {
+    .bg-gradient-gold {
+        background: linear-gradient(135deg, #ffe088 0%, #cda46f 100%);
+    }
+
+    .text-gradient-gold {
+        background: linear-gradient(135deg, #cda46f 0%, #e9c349 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .bg-gradient-card {
+        background: linear-gradient(180deg, #ffffff 0%, #fbf9f4 100%);
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(228, 226, 221, 0.6);
+    }
+
+    .glass-dark {
+        background: rgba(24, 23, 22, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(205, 164, 111, 0.2);
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+    background-color: #fbf9f4;
+    color: #1b1c19;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6,
+.font-headline,
+.font-headline-lg,
+.font-headline-md,
+.font-headline-lg-mobile,
+.font-display-lg,
+.font-display-lg-mobile {
+    font-family: 'Playfair Display', serif;
+}
+
+p, span, a, button, input, select, textarea, label,
+.font-body,
+.font-body-md,
+.font-body-lg,
+.font-caption,
+.font-label-md {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Custom scrollbar for luxury feel */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #fbf9f4;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cda46f;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #99733d;
 }

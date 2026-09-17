@@ -39,3 +39,9 @@ export async function logoutRequest(): Promise<void> {
 export async function forgotPasswordRequest(input: ForgotPasswordFormValues): Promise<void> {
     await api.post("/auth/forgot-password", input);
 }
+
+export async function googleAuthRequest(idToken: string): Promise<AuthUser> {
+    const { data } = await api.post<ApiEnvelope<AuthResponseData>>("/auth/google", { idToken });
+    setAccessToken(data.data.accessToken);
+    return data.data.user;
+}

@@ -15,7 +15,7 @@ export function AdminCouponsPage(): JSX.Element {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin-coupons"] });
             setShowModal(false);
-            toast.success("Coupon created");
+            toast.success("Coupon created successfully");
         },
         onError: () => toast.error("Could not create coupon — code may already exist"),
     });
@@ -29,52 +29,67 @@ export function AdminCouponsPage(): JSX.Element {
     });
 
     return (
-        <div>
-            <header className="flex justify-between items-center mb-stack-lg">
+        <div className="space-y-8 animate-fade-in">
+            <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 className="font-headline-lg text-headline-lg text-primary">Coupons</h2>
-                    <p className="font-body-md text-body-md text-on-surface-variant mt-2">Manage discount codes.</p>
+                    <h2 className="font-headline-lg text-3xl text-primary font-bold">Coupons Management</h2>
+                    <p className="font-body-md text-sm text-on-surface-variant mt-1">Create and monitor promotional discount codes.</p>
                 </div>
-                <button onClick={() => setShowModal(true)} className="bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md px-6 py-2 rounded shadow-[0_10px_30px_rgba(255,224,136,0.2)] hover:bg-secondary-fixed-dim transition-colors flex items-center gap-2">
-                    <Icon name="add" className="text-sm" /> New Coupon
+                <button 
+                    onClick={() => setShowModal(true)} 
+                    className="bg-gradient-gold text-charcoal-900 font-label-md text-sm px-6 py-3 rounded-xl shadow-md hover:shadow-luxury-glow transition-all flex items-center gap-2 uppercase tracking-wider font-bold"
+                >
+                    <Icon name="add" className="text-lg" /> New Coupon
                 </button>
             </header>
 
-            <div className="bg-surface-container-lowest/80 backdrop-blur-md rounded-xl border border-outline-variant/20 overflow-hidden">
-                {isLoading && <p className="p-6 font-body-md text-on-surface-variant">Loading...</p>}
+            <div className="bg-white rounded-2xl border border-champagne-300/45 shadow-premium overflow-hidden">
+                {isLoading && (
+                    <div className="p-12 flex justify-center">
+                        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-champagne-500" />
+                    </div>
+                )}
                 {coupons && coupons.length > 0 && (
-                    <table className="w-full text-left border-collapse">
-                        <thead>
-                            <tr className="border-b border-outline-variant/20 bg-surface/50">
-                                <th className="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Code</th>
-                                <th className="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Discount</th>
-                                <th className="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Usage</th>
-                                <th className="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Expires</th>
-                                <th className="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
-                                <th className="py-4 px-6"></th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-outline-variant/10">
-                            {coupons.map((coupon) => (
-                                <tr key={coupon.id} className="hover:bg-surface-container-low/50">
-                                    <td className="py-4 px-6 font-mono font-label-md text-label-md text-on-surface">{coupon.code}</td>
-                                    <td className="py-4 px-6 font-body-md text-body-md">{coupon.discountPercent}%</td>
-                                    <td className="py-4 px-6 font-body-md text-body-md text-on-surface-variant">{coupon.usedCount} / {coupon.maxUses}</td>
-                                    <td className="py-4 px-6 font-body-md text-body-md text-on-surface-variant">{new Date(coupon.expiresAt).toLocaleDateString()}</td>
-                                    <td className="py-4 px-6">
-                                        <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${coupon.isActive ? "bg-secondary-fixed/20 text-secondary" : "bg-surface-variant text-on-surface-variant"}`}>
-                                            {coupon.isActive ? "Active" : "Inactive"}
-                                        </span>
-                                    </td>
-                                    <td className="py-4 px-6">
-                                        {coupon.isActive && (
-                                            <button onClick={() => deactivateMutation.mutate(coupon.id)} className="text-on-surface-variant hover:text-error"><Icon name="block" className="text-[18px]" /></button>
-                                        )}
-                                    </td>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="border-b border-champagne-300/30 bg-surface-container-low/50">
+                                    <th className="py-4 px-6 font-caption text-xs text-on-surface-variant uppercase tracking-wider">Code</th>
+                                    <th className="py-4 px-6 font-caption text-xs text-on-surface-variant uppercase tracking-wider">Discount</th>
+                                    <th className="py-4 px-6 font-caption text-xs text-on-surface-variant uppercase tracking-wider">Usage</th>
+                                    <th className="py-4 px-6 font-caption text-xs text-on-surface-variant uppercase tracking-wider">Expires</th>
+                                    <th className="py-4 px-6 font-caption text-xs text-on-surface-variant uppercase tracking-wider">Status</th>
+                                    <th className="py-4 px-6 text-right font-caption text-xs text-on-surface-variant uppercase tracking-wider">Action</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="divide-y divide-champagne-300/20">
+                                {coupons.map((coupon) => (
+                                    <tr key={coupon.id} className="hover:bg-champagne-100/40 transition-colors">
+                                        <td className="py-4 px-6 font-mono font-bold text-sm text-primary">{coupon.code}</td>
+                                        <td className="py-4 px-6 font-label-md text-sm text-champagne-700 font-bold">{coupon.discountPercent}% OFF</td>
+                                        <td className="py-4 px-6 font-body-md text-sm text-on-surface-variant">{coupon.usedCount} / {coupon.maxUses}</td>
+                                        <td className="py-4 px-6 font-body-md text-sm text-on-surface-variant">{new Date(coupon.expiresAt).toLocaleDateString()}</td>
+                                        <td className="py-4 px-6">
+                                            <span className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${coupon.isActive ? "bg-green-50 text-green-700 border border-green-200" : "bg-gray-100 text-gray-600 border border-gray-200"}`}>
+                                                {coupon.isActive ? "Active" : "Inactive"}
+                                            </span>
+                                        </td>
+                                        <td className="py-4 px-6 text-right">
+                                            {coupon.isActive && (
+                                                <button 
+                                                    onClick={() => deactivateMutation.mutate(coupon.id)} 
+                                                    className="p-2 text-gray-400 hover:text-error rounded-full hover:bg-error/15 transition-colors"
+                                                    title="Deactivate Coupon"
+                                                >
+                                                    <Icon name="block" className="text-xl" />
+                                                </button>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 )}
             </div>
 

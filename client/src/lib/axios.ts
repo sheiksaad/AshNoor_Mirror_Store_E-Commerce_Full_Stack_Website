@@ -43,7 +43,10 @@ api.interceptors.response.use(
     async (error: AxiosError) => {
         const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        const url = originalRequest.url || "";
+        const isAuthFormEndpoint = url.includes("/auth/login") || url.includes("/auth/register") || url.includes("/auth/google");
+
+        if (error.response?.status === 401 && !originalRequest._retry && !isAuthFormEndpoint) {
             originalRequest._retry = true;
 
             try {

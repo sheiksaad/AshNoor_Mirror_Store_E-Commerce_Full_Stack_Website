@@ -1,4 +1,3 @@
-import { Construction } from "lucide-react";
 import type { JSX } from "react/jsx-runtime";
 import { Icon } from "@/components/Icon";
 

@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { getDashboardStats, listCustomers as getCustomersService, listCustomers, getAnalytics as getAnalyticsService } from "./admin.service.js";
+import { getDashboardStats, listCustomers as getCustomersService, getAnalytics as getAnalyticsService } from "./admin.service.js";
 import { sendResponse } from "../../utils/apiResponse.js";
 
 export async function getStats(_req: Request, res: Response): Promise<void> {
