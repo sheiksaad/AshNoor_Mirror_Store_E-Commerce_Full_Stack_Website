@@ -2,7 +2,8 @@ import slugify from "slugify";
 import { prisma } from "../../config/prisma.js";
 import { ApiError } from "../../utils/apiError.js";
 import { uploadBufferToCloudinary } from "../../utils/uploadToCloudinary.js";
-import type { Prisma } from "../../../generated/prisma/client.js";
+// Naya:
+import type { Prisma } from "../../generated/prisma/client.js";
 import type { CreateProductInput, UpdateProductInput, ListProductsQuery } from "./product.validation.js";
 
 export async function listProducts(query: ListProductsQuery) {

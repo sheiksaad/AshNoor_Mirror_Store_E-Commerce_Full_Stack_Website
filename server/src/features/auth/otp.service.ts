@@ -4,7 +4,8 @@ import { hashToken } from "../../utils/hash.js";
 import { generateOtpCode } from "../../utils/otp.js";
 import { sendEmail } from "../../utils/email.js";
 import { otpEmailTemplate } from "./email.templates.js";
-import type { OtpPurpose } from "../../../generated/prisma/enums.js";
+// Naya:
+import type { OtpPurpose } from "../../generated/prisma/enums.js";
 
 const OTP_TTL_MS = 10 * 60 * 1000;
 

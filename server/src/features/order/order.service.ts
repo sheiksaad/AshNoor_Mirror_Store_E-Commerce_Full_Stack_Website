@@ -2,7 +2,8 @@ import { prisma } from "../../config/prisma.js";
 import { ApiError } from "../../utils/apiError.js";
 import { activeGateway } from "../payment/payment.service.js";
 import type { CreateOrderInput } from "./order.validation.js";
-import type { OrderStatus, PaymentStatus } from "../../../generated/prisma/enums.js";
+// Naya:
+import type { OrderStatus, PaymentStatus } from "../../generated/prisma/enums.js";
 
 const ADVANCE_PAYMENT_PERCENT = 0.3; // 30% advance, 70% on delivery
 
